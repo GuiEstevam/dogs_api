@@ -1,0 +1,63 @@
+* {
+ margin: 0;
+ border: 0;
+ box-sizing: border-box;
+ font-family: Arial, Helvetica, sans-serif;
+ color: var(--text-dark);
+}
+
+html {
+ width: 100%;
+ background-color: var(--background-color);
+}
+
+.header {
+    text-align: center;
+    padding: 32px;
+  }
+
+#app {
+ display: flex;
+ flex-direction: column;
+ width: 100%;
+}
+
+#app #search {
+ display: flex;
+ width: 100%;
+ -webkit-box-pack: center;
+ -ms-flex-pack: center;
+ justify-content: center;
+ margin: 1rem 0;
+}
+
+#app #search #name-search {
+ height: 1.7rem;
+ font-size: 1rem;
+ min-width: 200px;
+ width: 50vw;
+ border-bottom: 1px solid black;
+}
+
+#app #search #type-search {
+ font-size: 1rem;
+}
+
+.dog_img {
+    width: 200px;
+    height: 200px;
+   }
+   
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #2196F3;
+    padding: 10px;
+  }
+  .grid-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+  }
