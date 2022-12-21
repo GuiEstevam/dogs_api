@@ -3,7 +3,6 @@ $url = "https://dog.ceo/api/breeds/list/all";
 $dogs = json_decode(file_get_contents($url), true);
 $breeds = $dogs['message'];
 
-
 function getByBreed($breed)
 {
       $api = 'https://dog.ceo/api/breed/' . $breed . '/images/random';
@@ -14,13 +13,6 @@ function getByBreed($breed)
 }
 ?>
 
-<script type="text/javascript">
-      function adicionar() {
-            localStorage.setItem("breed", document.breed.select_breed.value);
-            alert("Raça:" + localStorage.getItem("breed"));
-      }
-</script>
-
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -30,11 +22,14 @@ function getByBreed($breed)
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Cachorros</title>
       <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+      <script src="assets/js/script.js"></script>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Inter&family=Montserrat&family=Open+Sans&family=Poppins&family=Roboto&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body onload()="localData()">
       <header>
-            <!-- <h1> Selecione a raça do cachorro </h1> -->
       </header>
       <div id="app">
             <section id="search">
@@ -54,29 +49,25 @@ function getByBreed($breed)
             <div id="content">
                   <?php
                   if (isset($_POST['select_breeds'])) {
-
                         $selected_breed = $_POST['select_breeds'];
                         $dogs_breed = getByBreed($selected_breed);
                   ?>
-                        <script>
-                              adicionar();
-                        </script>
                         <div class="grid-container">
-                              <h1> Dê um nome para o cachorro </h1>
+                              <h1> Dê um nome para o cachorro</h1>
                               <div class="grid-item">
-                                    <img class="dog_img" src="<?php echo $dogs_breed; ?>">
+                                    <img class="dog_img" id="random_dog" src="<?php echo $dogs_breed; ?>">
                               </div>
-                              <form method="POST" action="">
-                                    <input type="text" class="dog_info" name="dog_name" placeholder="Nome">
-                                    <select class="dog_info" name="font" required>
+                              <form name="dog">
+                                    <input type="text" class="dog_info" name="dog_name" placeholder="Nome" required>
+                                    <select class="dog_info" name="select_font" required>
                                           <option value="" disabled selected>Selecione uma fonte</option>
-                                          <option value=""></option>
-                                          <option value=""></option>
-                                          <option value=""></option>
-                                          <option value=""></option>
-                                          <option value=""></option>
+                                          <option style="font-family: Roboto" value="Roboto">Roboto</option>
+                                          <option style="font-family: Inter" value="Inter">Inter</option>
+                                          <option style="font-family: Open Sans" value="Open Sans">Open Sans</option>
+                                          <option style="font-family: Poppins" value="Poppins">Poppins</option>
+                                          <option style="font-family: Montserrat" value="Montserrat">Montserrat</option>
                                     </select>
-                                    <select class="dog_info" name="color" required>
+                                    <select class="dog_info" name="select_color" required>
                                           <option value="" disabled selected>Selecione uma cor</option>
                                           <option style="color:#0000ff" value="#0000ff">Azul</option>
                                           <option style="color:#FF0000" value="#FF0000">Vermelho</option>
@@ -84,32 +75,44 @@ function getByBreed($breed)
                                           <option style="color:#008000" value="#008000">Verde</option>
                                           <option style="color:#ffcbdb" value="#ffcbdb">Rosa</option>
                                     </select>
-                                    <input type="submit" value="Salvar">
+                                    <input type="button" value="Salvar" onClick="add()">
                               </form>
-                        <?php
-                  }
-                        ?>
                         </div>
-                        <?php
-                        if (isset($_POST['dog_name'])) {
-                              $name = $_POST['dog_name'];
-                              $font = $_POST['font'];
-                              $color = $_POST['color'];
-                        ?>
-                              <div class="grid-container">
-                                    <div class="grid-item">
-                                          <h1> Esse foi o cachorro selecionado </h1>
-                                          <div class="grid-item">
-                                                <img class="dog_img" src="<?php echo $dogs_breed; ?>">
-                                          </div>
-                                          <p style="color:<?php echo $color ?>"><?php echo $name ?></p>
-                                    </div>
-                              <?php
-                        }
-                              ?>
+                  <?php
+                  }
+                  ?>
+                  <div class="grid-container2" id="selected">
+                        <div class="grid-item">
+                              <h1> Esse foi o cachorro selecionado </h1>
+                              <div class="grid-item">
+                                    <img class="dog_img" id="dog_img">
+                                    <span id="dogs_name">
+
+                                    </span>
                               </div>
+                        </div>
+                  </div>
             </div>
-      </d   iv>
+      </div>
 </body>
 
 </html>
+<script>
+      if (localStorage.length > 0) {
+            document.getElementById('selected').style.display = 'grid';
+
+            let name = localStorage.getItem('name');
+            let font = localStorage.getItem('font');
+            let color = localStorage.getItem('color');
+            let dog_image = localStorage.getItem('dog_image');
+            let date = localStorage.getItem('date');
+
+            let selected_dog = document.getElementById('dog_img');
+            selected_dog.setAttribute('src', dog_image);
+
+            let dogs_name = document.getElementById('dogs_name');
+            dogs_name.innerHTML = name + '<br>' + date;
+            dogs_name.style.fontFamily = font;
+            dogs_name.style.color = color;
+      }
+</script>
